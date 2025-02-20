@@ -1,0 +1,25 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: cimg/python:3.9
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: pip install pytest
+      - run:
+          name: Run tests
+          command: python test_add.py
+
+workflows:
+  version: 2
+  test-and-merge:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only:
+                - main
+                - feature-branch
